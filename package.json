@@ -1,0 +1,16 @@
+{
+  "name": "file-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "团队文件储存平台 + 留言墙，部署于 Netlify，后端使用 Supabase",
+  "scripts": {
+    "create-admin": "node scripts/create-admin.js",
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

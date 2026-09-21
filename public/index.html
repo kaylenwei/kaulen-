@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>团队文件储存平台</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- 登录界面 -->
+  <div id="login-view" class="login-view">
+    <form id="login-form" class="card login-card" autocomplete="off">
+      <h1>团队文件储存平台</h1>
+      <p class="muted">使用管理员分发的账号登录</p>
+      <label>用户名
+        <input id="login-username" type="text" name="username" required autocomplete="username" />
+      </label>
+      <label>密码
+        <input id="login-password" type="password" name="password" required autocomplete="current-password" />
+      </label>
+      <p id="login-error" class="error" hidden></p>
+      <button type="submit" class="btn-primary" id="login-btn">登录</button>
+    </form>
+  </div>
+
+  <!-- 主应用 -->
+  <div id="app" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">📁</span>
+        <span>文件储存平台</span>
+      </div>
+      <nav class="tabs">
+        <button class="tab active" data-tab="files">文件</button>
+        <button class="tab" data-tab="messages">留言墙</button>
+        <button class="tab" data-tab="admin" id="admin-tab" hidden>成员管理</button>
+      </nav>
+      <div class="topbar-right">
+        <span id="quota-badge" class="badge" hidden></span>
+        <span id="user-name" class="muted"></span>
+        <button class="btn-ghost" id="logout-btn">退出</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- 文件区 -->
+      <section id="panel-files" class="panel active">
+        <div class="panel-head">
+          <h2>文件库</h2>
+          <span id="quota-text" class="muted"></span>
+        </div>
+
+        <div class="card upload-card">
+          <h3>上传文件</h3>
+          <div class="upload-row">
+            <input id="file-input" type="file" />
+            <input id="file-note" type="text" class="grow" placeholder="备注（可选）" maxlength="1000" />
+            <button id="upload-btn" class="btn-primary">上传</button>
+          </div>
+          <div class="progress-wrap" hidden id="progress-wrap">
+            <div class="progress"><div id="progress-bar"></div></div>
+            <span id="progress-text" class="muted"></span>
+          </div>
+          <p id="upload-error" class="error" hidden></p>
+        </div>
+
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>文件名</th>
+                  <th>上传者</th>
+                  <th>大小</th>
+                  <th>备注</th>
+                  <th>上传时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="files-body"><tr><td colspan="6" class="empty">加载中…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 留言墙 -->
+      <section id="panel-messages" class="panel">
+        <div class="panel-head">
+          <h2>留言墙</h2>
+        </div>
+        <div class="card">
+          <form id="message-form" class="message-form">
+            <input id="message-input" type="text" placeholder="写点什么…" maxlength="1000" required />
+            <button type="submit" class="btn-primary">发布</button>
+          </form>
+        </div>
+        <div id="messages-list" class="messages-list"></div>
+      </section>
+
+      <!-- 成员管理（仅管理员） -->
+      <section id="panel-admin" class="panel">
+        <div class="panel-head">
+          <h2>成员管理</h2>
+        </div>
+        <div class="card">
+          <h3>添加成员</h3>
+          <form id="add-user-form" class="user-form">
+            <input id="new-username" type="text" placeholder="用户名" required />
+            <input id="new-password" type="text" placeholder="初始密码" required />
+            <select id="new-role">
+              <option value="member">成员（每日 10 个文件）</option>
+              <option value="admin">管理员（不限上传）</option>
+            </select>
+            <button type="submit" class="btn-primary">添加</button>
+          </form>
+          <p id="user-error" class="error" hidden></p>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>用户名</th><th>角色</th><th>创建时间</th><th>操作</th></tr>
+              </thead>
+              <tbody id="users-body"><tr><td colspan="4" class="empty">加载中…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 编辑备注弹窗 -->
+  <dialog id="edit-dialog">
+    <form method="dialog" class="card">
+      <h3>编辑备注 / 文件名</h3>
+      <label>文件名
+        <input id="edit-name" type="text" maxlength="255" />
+      </label>
+      <label>备注
+        <textarea id="edit-note" rows="3" maxlength="1000"></textarea>
+      </label>
+      <input id="edit-id" type="hidden" />
+      <div class="dialog-actions">
+        <button value="cancel" class="btn-ghost">取消</button>
+        <button value="ok" id="edit-save" class="btn-primary">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>
