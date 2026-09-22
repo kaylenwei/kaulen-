@@ -113,13 +113,14 @@ document.querySelectorAll('.theme-toggle').forEach((b) => {
 
 /* ---------- 登录两步流程 ---------- */
 function setLoginStep(step) {
-  const track = el('login-track');
-  if (track) track.dataset.step = step;
+  document.querySelectorAll('.login-step').forEach((s) => {
+    s.classList.toggle('active', s.dataset.step === String(step));
+  });
   if (step === '2') {
     el('login-as').textContent = '登录为 ' + (el('login-username').value.trim() || '新用户');
-    setTimeout(() => el('login-password').focus(), 340);
+    setTimeout(() => el('login-password').focus(), 120);
   } else if (step === '1') {
-    setTimeout(() => el('login-username').focus(), 340);
+    setTimeout(() => el('login-username').focus(), 120);
   }
 }
 function goLoginNext() {

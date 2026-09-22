@@ -93,6 +93,7 @@ async function usedToday(username) {
     .from('files')
     .select('id', { count: 'exact', head: true })
     .eq('owner', username)
+    .eq('status', 'uploaded')
     .gte('created_at', start.toISOString())
     .lt('created_at', end.toISOString());
   if (error) return 0;

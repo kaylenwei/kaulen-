@@ -226,28 +226,30 @@ textarea { resize: vertical; min-height: 76px; }
 .login-card h1 { margin-bottom: 2px; }
 .login-card h1::selection { background: var(--brand-soft); }
 
-.login-track {
-  display: flex;
-  margin-top: 22px;
-  transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1);
-  text-align: left;
+/* 登录分步：每个 step 独立占位（同一层切换，杜绝 flex 同行挤压变形） */
+.login-steps { margin-top: 22px; text-align: left; min-height: 236px; }
+.login-step { display: none; }
+.login-step.active { display: block; animation: step-in 0.32s cubic-bezier(0.22, 0.9, 0.32, 1); }
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
 }
-.login-track[data-step="2"] { transform: translateX(-100%); }
-.login-slide { flex: 0 0 100%; min-width: 0; }
+.login-step label { margin-top: 4px; }
 
 .login-as {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin: 0 0 8px;
   padding: 10px 14px;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-left: 3px solid var(--brand);
   border-radius: var(--radius);
-  margin-bottom: 6px;
   word-break: break-all;
+  font-weight: 600;
 }
-.login-actions { display: flex; gap: 10px; margin-top: 8px; }
+.login-actions { display: flex; gap: 10px; margin-top: 10px; }
 .login-actions .btn-ghost { flex: 0 0 auto; }
 .login-actions .btn-primary { flex: 1; }
 

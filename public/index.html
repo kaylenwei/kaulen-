@@ -23,22 +23,20 @@
       <h1>团队文件储存平台</h1>
       <p class="muted center">使用管理员分发的账号登录</p>
 
-      <div class="login-track" id="login-track" data-step="1">
+      <div class="login-steps">
         <!-- 第一步：用户名 -->
-        <div class="login-slide">
-          <label>用户名
-            <input id="login-username" type="text" name="username" required autocomplete="username" placeholder="请输入用户名" />
-          </label>
+        <div class="login-step active" data-step="1">
+          <label for="login-username">用户名</label>
+          <input id="login-username" type="text" name="username" required autocomplete="username" placeholder="请输入用户名" />
           <p id="login-error1" class="error" hidden></p>
           <button type="button" class="btn-primary btn-block" id="login-next">下一步</button>
         </div>
 
         <!-- 第二步：密码 -->
-        <div class="login-slide">
+        <div class="login-step" data-step="2">
           <div class="login-as muted" id="login-as"></div>
-          <label>密码
-            <input id="login-password" type="password" name="password" required autocomplete="current-password" placeholder="请输入密码" />
-          </label>
+          <label for="login-password">密码</label>
+          <input id="login-password" type="password" name="password" required autocomplete="current-password" placeholder="请输入密码" />
           <p id="login-error" class="error" hidden></p>
           <div class="login-actions">
             <button type="button" class="btn-ghost" id="login-back">上一步</button>
@@ -165,12 +163,10 @@
   <dialog id="edit-dialog">
     <form method="dialog" class="card">
       <h3>编辑备注 / 文件名</h3>
-      <label>文件名
-        <input id="edit-name" type="text" maxlength="255" />
-      </label>
-      <label>备注
-        <textarea id="edit-note" rows="3" maxlength="1000"></textarea>
-      </label>
+      <label for="edit-name">文件名</label>
+      <input id="edit-name" type="text" maxlength="255" />
+      <label for="edit-note">备注</label>
+      <textarea id="edit-note" rows="3" maxlength="1000"></textarea>
       <input id="edit-id" type="hidden" />
       <div class="dialog-actions">
         <button value="cancel" class="btn-ghost">取消</button>
