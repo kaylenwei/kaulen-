@@ -49,24 +49,46 @@ async function api(path, { method = 'GET', body } = {}) {
   return data.data;
 }
 
-/* ---------- 登录 / 登出 ---------- */
+/* ---------- 登录 / 登出（带"跳转"过渡动画 + 地址栏变化） ---------- */
+let viewTimer = null;
+
 function showLogin() {
-  el('app').hidden = true;
-  el('login-view').hidden = false;
+  clearTimeout(viewTimer);
+  const app = el('app');
+  const login = el('login-view');
+  app.hidden = true;
+  app.classList.remove('entering');
+  login.hidden = false;
+  login.classList.remove('leaving');
   state.user = null;
   setLoginStep('1');
   el('login-username').value = '';
   el('login-password').value = '';
   el('login-error').hidden = true;
   el('login-error1').hidden = true;
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
 }
 
 function showApp() {
-  el('login-view').hidden = true;
-  el('app').hidden = false;
+  clearTimeout(viewTimer);
+  const login = el('login-view');
+  const app = el('app');
+  // 登录视图淡出 → 主界面整页进入，营造跳转到全新界面的效果
+  login.classList.add('leaving');
+  app.hidden = false;
+  app.classList.remove('entering');
+  void app.offsetWidth; // 强制重排以重启动画
+  app.classList.add('entering');
+  viewTimer = setTimeout(() => {
+    login.hidden = true;
+    login.classList.remove('leaving');
+  }, 320);
+
   el('user-name').textContent = state.user ? state.user.username : '';
   el('admin-tab').hidden = state.user?.role !== 'admin';
   el('quota-badge').hidden = state.user?.role === 'admin';
+  if (location.hash !== '#home') history.replaceState(null, '', '#home');
+  window.scrollTo(0, 0);
 }
 
 /* ---------- 主题切换（亮 / 暗） ---------- */
