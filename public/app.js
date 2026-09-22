@@ -54,6 +54,11 @@ function showLogin() {
   el('app').hidden = true;
   el('login-view').hidden = false;
   state.user = null;
+  setLoginStep('1');
+  el('login-username').value = '';
+  el('login-password').value = '';
+  el('login-error').hidden = true;
+  el('login-error1').hidden = true;
 }
 
 function showApp() {
@@ -62,6 +67,51 @@ function showApp() {
   el('user-name').textContent = state.user ? state.user.username : '';
   el('admin-tab').hidden = state.user?.role !== 'admin';
   el('quota-badge').hidden = state.user?.role === 'admin';
+}
+
+/* ---------- 主题切换（亮 / 暗） ---------- */
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('fh_theme', theme);
+  document.querySelectorAll('.theme-toggle').forEach((b) => {
+    b.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+  });
+}
+function initTheme() {
+  const saved = localStorage.getItem('fh_theme');
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(saved || (prefersDark ? 'dark' : 'light'));
+}
+document.querySelectorAll('.theme-toggle').forEach((b) => {
+  b.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+  });
+});
+
+/* ---------- 登录两步流程 ---------- */
+function setLoginStep(step) {
+  const track = el('login-track');
+  if (track) track.dataset.step = step;
+  if (step === '2') {
+    el('login-as').textContent = '登录为 ' + (el('login-username').value.trim() || '新用户');
+    setTimeout(() => el('login-password').focus(), 340);
+  } else if (step === '1') {
+    setTimeout(() => el('login-username').focus(), 340);
+  }
+}
+function goLoginNext() {
+  const u = el('login-username').value.trim();
+  if (!u) {
+    el('login-error1').textContent = '请输入用户名';
+    el('login-error1').hidden = false;
+    el('login-username').classList.add('shake');
+    setTimeout(() => el('login-username').classList.remove('shake'), 450);
+    el('login-username').focus();
+    return;
+  }
+  el('login-error1').hidden = true;
+  setLoginStep('2');
 }
 
 async function init() {
@@ -103,6 +153,16 @@ el('login-form').addEventListener('submit', async (e) => {
   } finally {
     btn.disabled = false;
   }
+});
+
+el('login-next').addEventListener('click', goLoginNext);
+el('login-back').addEventListener('click', () => {
+  el('login-error').hidden = true;
+  el('login-password').value = '';
+  setLoginStep('1');
+});
+el('login-username').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); goLoginNext(); }
 });
 
 el('logout-btn').addEventListener('click', () => {
@@ -368,4 +428,5 @@ el('users-body').addEventListener('click', async (e) => {
   }
 });
 
+initTheme();
 init();

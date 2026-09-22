@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,17 +9,43 @@
 <body>
   <!-- 登录界面 -->
   <div id="login-view" class="login-view">
+    <button class="theme-toggle fab" type="button" aria-label="切换主题">
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+
     <form id="login-form" class="card login-card" autocomplete="off">
+      <div class="login-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+          <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h4.2l2 2.2h6.8A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-11z"/>
+        </svg>
+      </div>
       <h1>团队文件储存平台</h1>
-      <p class="muted">使用管理员分发的账号登录</p>
-      <label>用户名
-        <input id="login-username" type="text" name="username" required autocomplete="username" />
-      </label>
-      <label>密码
-        <input id="login-password" type="password" name="password" required autocomplete="current-password" />
-      </label>
-      <p id="login-error" class="error" hidden></p>
-      <button type="submit" class="btn-primary" id="login-btn">登录</button>
+      <p class="muted center">使用管理员分发的账号登录</p>
+
+      <div class="login-track" id="login-track" data-step="1">
+        <!-- 第一步：用户名 -->
+        <div class="login-slide">
+          <label>用户名
+            <input id="login-username" type="text" name="username" required autocomplete="username" placeholder="请输入用户名" />
+          </label>
+          <p id="login-error1" class="error" hidden></p>
+          <button type="button" class="btn-primary btn-block" id="login-next">下一步</button>
+        </div>
+
+        <!-- 第二步：密码 -->
+        <div class="login-slide">
+          <div class="login-as muted" id="login-as"></div>
+          <label>密码
+            <input id="login-password" type="password" name="password" required autocomplete="current-password" placeholder="请输入密码" />
+          </label>
+          <p id="login-error" class="error" hidden></p>
+          <div class="login-actions">
+            <button type="button" class="btn-ghost" id="login-back">上一步</button>
+            <button type="submit" class="btn-primary" id="login-btn">登录</button>
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 
@@ -27,7 +53,9 @@
   <div id="app" hidden>
     <header class="topbar">
       <div class="brand">
-        <span class="logo">📁</span>
+        <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+          <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h4.2l2 2.2h6.8A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-11z"/>
+        </svg>
         <span>文件储存平台</span>
       </div>
       <nav class="tabs">
@@ -38,6 +66,10 @@
       <div class="topbar-right">
         <span id="quota-badge" class="badge" hidden></span>
         <span id="user-name" class="muted"></span>
+        <button class="theme-toggle" type="button" aria-label="切换主题">
+          <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
         <button class="btn-ghost" id="logout-btn">退出</button>
       </div>
     </header>
