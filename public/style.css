@@ -66,6 +66,10 @@
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
+/* 关键修复：hidden 属性必须压过任何显式 display（如 login-view 的 flex ），
+   否则元素无法被 JS 的 el.hidden = true 隐藏，会一直残留遮挡 */
+[hidden] { display: none !important; }
+
 html, body { height: 100%; }
 
 body {
