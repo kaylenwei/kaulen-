@@ -73,16 +73,14 @@ function showApp() {
   clearTimeout(viewTimer);
   const login = el('login-view');
   const app = el('app');
-  // 登录视图淡出 → 主界面整页进入，营造跳转到全新界面的效果
-  login.classList.add('leaving');
+  // 立刻彻底隐藏登录视图（不依赖动画定时器，杜绝残留遮挡）
+  login.hidden = true;
+  login.classList.remove('leaving');
+  // 主界面整页进入，营造"跳转到新界面"的过渡感
   app.hidden = false;
   app.classList.remove('entering');
   void app.offsetWidth; // 强制重排以重启动画
   app.classList.add('entering');
-  viewTimer = setTimeout(() => {
-    login.hidden = true;
-    login.classList.remove('leaving');
-  }, 320);
 
   el('user-name').textContent = state.user ? state.user.username : '';
   el('admin-tab').hidden = state.user?.role !== 'admin';

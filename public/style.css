@@ -205,8 +205,7 @@ textarea { resize: vertical; min-height: 76px; }
 #login-view::after { width: 380px; height: 380px; bottom: -130px; left: -110px; background: radial-gradient(circle, var(--accent-soft), transparent 68%); }
 [data-theme="dark"] #login-view::before, [data-theme="dark"] #login-view::after { opacity: 0.32; }
 
-/* 登录视图退出（跳转向主界面） */
-#login-view.leaving { opacity: 0; transform: scale(1.04); pointer-events: none; }
+/* 登录视图为全屏固定层，登录后由 JS 立即隐藏，无需 CSS 淡出逻辑 */
 
 .login-card {
   position: relative;
